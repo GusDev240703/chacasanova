@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chá de Casa Nova</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Splash -->
+  <div id="splash-screen">
+    <span id="splash-message"></span>
+  </div>
+
+  <!-- Navbar -->
+  <nav>
+    <a href="#sobre-nos">Sobre nós 💕</a>
+    <a href="#entrada">Lista de Presentes 🎁</a>
+  </nav>
+
+  <!-- Seção Sobre nós -->
+  <section id="sobre-nos">
+    <h1>Sobre nós 💕</h1>
+    <div class="sobre-container">
+      <img src="./foto_casal.jpeg" alt="Foto do casal">
+      <div class="sobre-texto">
+        <h4>Olá, seja bem vindo! Se você está nesse site, significa que você foi convidado para participar desse momento extremamente especial!</h4>
+      <h4>Este momento será onde compartilharemos essa alegria com nossos amigos e familiares
+          e estamos felizes por ter você fazendo parte dessa história.
+        </h4>
+        <h4>
+          Este site é um jeito de deixar tudo mais fácil: você encontra os presentes, confirma sua presença 
+          e ainda pode conhecer um pouco mais da nossa historia. 💖
+        </h4>
+      </div>
+    </div>
+  </section>
+    <h1 style="text-align:center;">Nossa História</h1>
+
+  <div class="timeline">
+    <div class="timeline-event">
+      <img src="./O começo.jpeg" alt="Nos conhecemos">
+      <div class="dot"></div>
+      <h3><b>Nos conhecemos</b></h3>
+      <h5>Ensino médio, onde nos conhecemos</h5>
+    </div>
+
+    <div class="timeline-event">                                    
+      <img src="./Amor.jpeg" alt="Nos apaixonamos">
+      <div class="dot"></div>
+      <h3><b>Nasce o amor</b></h3>
+      <h5>Quando nos apaixonamos</h5>
+    </div>
+
+    <div class="timeline-event">
+      <img src="./Barradas.jpeg" alt="Sempre curtindo nossos momentos juntos">
+      <div class="dot"></div>
+      <h3><b>Companheirismo</b></h3>
+      <h5>Sempre curtindo nossos momentos juntos</h5>
+    </div>
+
+    <div class="timeline-event">
+      <img src="./Reconhecimento de passos.jpeg" alt="Sempre nos momentos importantes, um para o outro">
+      <div class="dot"></div>
+      <h3><b>Parceria</b></h3>
+      <h5>Sempre nos momentos importantes, um para o outro</h5>
+    </div>
+    
+    <div class="timeline-event">
+      <img src="./Dia dos Namorados.jpeg" alt="Nosso primeiro dia dos namorados">
+      <div class="dot"></div>
+      <h3><b>Etapas</b></h3>
+      <h5>Nosso primeiro dia dos namorados</h5>
+    </div>
+    
+    <div class="timeline-event">
+      <img src="./foto_casal.jpeg" alt="Nossa conquista">
+      <div class="dot"></div>
+      <h3><b>Nossa conquista</b></h3>
+      <h5>Onde conquistamos noso primeiro imovel</h5>
+    </div>
+    
+    <div class="timeline-event">
+      <img src="./O pedido.jpeg" alt="Chegou a hora">
+      <div class="dot"></div>
+      <h3><b>Noivado</b></h3>
+      <h5>Finalmente chegou a hora</h5>
+    </div>
+    
+    <div class="timeline-event">
+      <img src="./Enfim noivos.jpeg" alt="Enfim, noivos">
+      <div class="dot"></div>
+      <h3><b>Casamento</b></h3>
+      <h5>Enfim, noivos</h5>
+    </div>
+  </div>
+
+  <div>
+    <h1>Esses são alguns dos momentos mais importantes da nossa história</h2>
+      <p class="end">E agora você está convidado para um dos nossos momentos mais especiais!</p>
+      <p class="end">Ao colocar seu nome na lista abaixo, você não só estará nos abençoando com algo matérial, mas também estará confirmando sua presença nessa data especial.</p>
+      <p class="end">Se por ventura não puder contribuir com algum presente, não deixe de comparecer! Se você receber esse convite, você é importante para nós!</p>
+  </div>
+  <!-- Entrada de nome -->
+  <div class="box" id="entrada">
+    <h2 class="titulo"><b>Chá de Casa Nova – Gustavo &amp; Camille</b></h2>
+    <p>Olá, que maravilha que você vai poder estar conosco nesse dia tão especial. 
+       Abaixo está um pequeno formulário que nos ajudará a organizar a lista de presentes hh4</p>
+    <input type="text" id="nomeConvidado" placeholder="Seu nome">
+    <button onclick="salvarNome()">Continuar</button>
+    <small>Ao confirmar, você será direcionado para a lista de presentes.</small>
+  </div>
+
+  <script>
+  const frases = [
+    "Bem-vindo ao nosso site",
+    "Aproveite alguns versiculos, enquanto carregamos o nosso site.",
+    "'E sabemos que todas as coisas contribuem juntamente para o bem daqueles que amam a Deus' - Romanos 8:28",
+    "'Portanto, deixará o homem o seu pai e a sua mãe, e serão ambos uma carne' - Gênesis 2:24",
+    "'As muitas águas não poderiam apagar o amor' - Cânticos 8:7"
+  ];
+
+  let i = 0;
+  const msg = document.getElementById("splash-message");
+  const splash = document.getElementById("splash-screen");
+
+  function mostrarFrase() {
+    msg.style.opacity = "0";
+    setTimeout(() => {
+      msg.innerText = frases[i];
+      msg.style.opacity = "1";
+      i++;
+    }, 1100);
+  }
+
+  msg.innerText = frases[i];
+  msg.style.opacity = "1";
+  i++;
+
+  setInterval(() => {
+    if (i < frases.length) {
+      mostrarFrase();
+    }
+  }, 7000);
+
+  const tempoTotal = frases.length * 5500;
+
+  setTimeout(() => {
+    splash.style.opacity = "0";
+    setTimeout(() => {
+      splash.style.display = "none";
+    }, 1500);
+  }, tempoTotal);
+
+  function salvarNome() {
+    const nome = document.getElementById("nomeConvidado").value.trim();
+    if (nome) {
+      localStorage.setItem("convidado", nome);
+      window.location.href = "produtos.html";
+    } else {
+      alert("Por favor, digite seu nome.");
+    }
+  }
+  </script>
+</body>
+</html>

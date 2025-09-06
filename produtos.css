@@ -1,0 +1,228 @@
+/* Estilo geral */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f3e8c5;
+  background-image: url("./8A00008A0000.jpeg");
+  background-repeat: repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 15px;
+  text-align: center;
+  color: #3B060A;
+}
+
+/* Título */
+h1 {
+  font-family: 'Merriweather', serif;
+  font-size: 1.8rem;
+  color: #5c0a12;
+  margin-bottom: 10px;
+}
+
+#boasVindas {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 18px;
+  color: #4b2c2c;
+}
+
+/* Campo de busca */
+#filtroProduto {
+  width: 90%;
+  max-width: 380px;
+  padding: 10px 14px;
+  margin: 0 auto 25px auto;
+  display: block;
+  border-radius: 25px;
+  border: 1px solid #d8b89b;
+  font-size: 1rem;
+  background-image: url("./8A00008A0000.jpeg");
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+#filtroProduto:focus {
+  border: 2px solid #9e735d;
+  box-shadow: 0 0 6px rgba(158, 115, 93, 0.5);
+  outline: none;
+}
+
+/* Grid dos produtos */
+#produtos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  padding: 10px 0;
+}
+
+/* Card dos produtos */
+.produto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  padding: 14px;
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.produto:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagem */
+.produto img {
+  width: 100%;
+  max-height: 140px;
+  object-fit: contain;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  transition: transform 0.3s ease;
+}
+
+.produto img:hover {
+  transform: scale(1.05);
+}
+
+/* Nome e detalhes */
+.nomeProduto {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #5c0a12;
+  margin: 6px 0;
+}
+
+.circle {
+  display: inline-block;
+  width: 16px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+}
+
+.voltagem {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #6b4e3d;
+}
+
+.status {
+  font-size: 0.95rem;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.status.disponivel {
+  color: #2e7d32;
+}
+
+.status.indisponivel {
+  color: #c62828;
+}
+
+/* Botão */
+.produto button {
+  margin-top: 10px;
+  padding: 9px 16px;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #a53749, #5c0a12);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.produto button:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+.produto button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.produto.pix-card {
+  display: flex;
+  flex-direction: column; /* empilha os elementos verticalmente */
+  align-items: center;    /* centraliza horizontalmente */
+  justify-content: flex-start; /* mantém os elementos no topo */
+  padding: 15px;
+  text-align: center;
+}
+
+.produto.pix-card img {
+  max-width: 150px; /* ajuste para ficar proporcional aos outros cards */
+  margin-bottom: 10px;
+}
+
+.produto.pix-card .nomeProduto {
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.produto.pix-card p {
+  margin: 5px 0;
+  font-size: 13px;
+}
+
+.produto.pix-card button {
+  margin-top: 10px;
+}
+
+/* Mobile first */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  #filtroProduto {
+    font-size: 0.95rem;
+    padding: 8px 12px;
+    background-image: url("./8A00008A0000.jpeg");
+  }
+
+  .produto {
+    padding: 12px;
+  }
+
+  .nomeProduto {
+    font-size: 0.95rem;
+  }
+
+  /* Container para alinhar círculo e texto */
+.cor-container {
+  display: flex;
+  align-items: center;   /* centraliza verticalmente */
+  justify-content: center; /* centraliza horizontalmente */
+  gap: 8px;              /* espaço entre o círculo e o nome */
+  margin: 8px 0;
+  font-size: 0.95rem;
+  color: #4b2c2c;
+}
+
+/* Bolinha de cor */
+.circle {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid #555; /* borda leve para destacar em cores claras */
+}
+
+}

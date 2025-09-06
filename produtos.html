@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="produtos.css?v=3">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap');
+
+    /* Ajustes para o card Pix */
+    .pix-card {
+      text-align: center;
+      padding: 15px;
+    }
+    .pix-card img {
+      max-width: 200px;
+      margin: 10px auto;
+      display: block;
+    }
+    .pix-key {
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .pix-btn {
+      background: #4CAF50;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+  <title>Lista de Presentes</title>
+</head>
+<body>
+  <h1>Lista de Presentes</h1>
+  <p id="boasVindas"></p>
+
+  <input type="text" id="filtroProduto" placeholder="Filtrar por nome do produto..." />
+
+  <p id="mensagemPix">
+  Não sabe com o que presentear? Colabore com um valor via 
+  <a href="#pix-card">Pix</a> para ajudar os noivos nessa nova jornada!
+</p>
+
+  <div id="produtos">Carregando...</div>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const SUPABASE_URL = "https://tumuyoettpwottsyzvry.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR1bXV5b2V0dHB3b3R0c3l6dnJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY2NTM3MTcsImV4cCI6MjA3MjIyOTcxN30.FQFZy3S7A82GU45H-k94-0WhOaNwMkpi7Aa_8DMaiLM"; 
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    const TABELA = "presentes";
+
+    // Mensagem de boas-vindas
+    const convidado = localStorage.getItem("convidado");
+    if (convidado) {
+      document.getElementById("boasVindas").textContent =
+        `Olá, ${convidado}! Escolha um presente para reservar.`;
+    }
+
+    // Função para mapear cores
+    function mapearCor(cor) {
+      if (!cor) return { hex: "transparent", nome: "Sem cor" };
+
+      const cores = {
+        "Preto": ["#0F0E0E", "black"],
+        "Branco": ["#F3F2EC", "white"],
+        "Vermelho": ["#FF0000", "red"],
+        "Azul": ["#254D70", "blue"],
+        "Azul Marinho": ["#131D4F","dark blue"],
+        "Verde": ["#008000", "green"],
+        "Amarelo": ["#FFFF00", "yellow"],
+        "Inox": ["#44444E", "inox"],
+        "Rosa": ["#FFC0CB", "pink"],
+        "Roxo": ["#800080", "purple"],
+        "Laranja": ["#FFA500", "orange"],
+        "Amadeirado": ["#7B4019", "wood"],
+        "Bege": ["#E5E3D4", "beige"],
+        "Dourado": ["#FFD700", "gold"],
+        "Prata": ["#C0C0C0", "silver"],
+        "Cinza": ["#393E46", "gray"],
+        "Marrom": ["#4F200D", "brown"],
+        "Rosa Claro": ["#E5BEB5", "light-pink"],
+      };
+
+      const corNormalizada = cor.trim().toLowerCase();
+      for (let nome in cores) {
+        if (nome.toLowerCase() === corNormalizada) {
+          return { hex: cores[nome][0], nome: nome };
+        }
+      }
+
+      let hex = cor.startsWith("#") ? cor : `#${cor}`;
+      hex = hex.toUpperCase();
+      for (let nome in cores) {
+        if (cores[nome].map(c => c.toUpperCase()).includes(hex)) {
+          return { hex, nome };
+        }
+      }
+      return { hex, nome: hex };
+    }
+
+    async function carregarProdutos() {
+      try {
+        const { data, error } = await supabase
+          .from(TABELA)
+          .select("*")
+          .order("produto", { ascending: true });
+
+        if (error) throw error;
+
+        const container = document.getElementById("produtos");
+        container.innerHTML = "";
+
+        if (!data || data.length === 0) {
+          container.innerHTML = "<div class='erro'>Nenhum item encontrado.</div>";
+          return;
+        }
+
+        // Renderiza produtos do banco
+        data.forEach(({ id, produto, reservado, cor, imagem, voltagem }) => {
+          const bloco = document.createElement("div");
+          bloco.className = "produto";
+          const corInfo = mapearCor(cor);
+
+          bloco.innerHTML = `
+            <img src="${imagem || 'placeholder.png'}" alt="${produto || "Produto"}" />
+            <p class="nomeProduto">${produto || "Produto sem nome"}</p>
+            <div class="cor-container">
+              <span class="circle" style="background:${corInfo.hex}"></span>
+              <span>${corInfo.nome}</span>
+            </div>
+            <p class="voltagem">${voltagem || "Sem voltagem"}</p>
+            <p class="status ${reservado ? "indisponivel" : "disponivel"}">
+              ${reservado ? "Indisponível" : "Disponível"}
+            </p>
+            <button ${reservado ? "disabled" : ""} data-id="${id}">
+              ${reservado ? "Indisponível" : "Reservar"}
+            </button>
+          `;
+          bloco.querySelector("button")?.addEventListener("click", () => reservarProduto(id));
+          container.appendChild(bloco);
+        });
+
+        // Adiciona o card fixo do Pix
+        const pixCard = document.createElement("div");
+        pixCard.className = "produto pix-card";
+        pixCard.id = "pix-card";
+        pixCard.innerHTML = `
+          <img src="https://api.qrserver.com/v1/create-qr-code/?data=seuchavepix@exemplo.com&size=200x200" alt="QR Code Pix" />
+          <p class="nomeProduto">Pix</p>
+          <p>Obrigado por nos ajudar em nossa nova jornada!</p>
+          <p id="pix-key" class="pix-key">Chave Pix: <br> gusta240703@gmail.com</p>
+          <button class="pix-btn" onclick="copyPix()">Copiar chave Pix</button>
+        `;
+        container.appendChild(pixCard);
+
+        ativarFiltro();
+      } catch (e) {
+        console.error("Erro ao carregar produtos.", e);
+      }
+    }
+
+    async function reservarProduto(id) {
+      try {
+        const { error } = await supabase
+          .from(TABELA)
+          .update({ reservado: true })
+          .eq("id", id);
+
+        if (error) {
+          alert("Não foi possível reservar. Tente novamente.");
+          return;
+        }
+        window.location.href = "agradecimentos.html";
+      } catch (err) {
+        alert("Erro inesperado. Tente novamente.");
+      }
+    }
+
+    function ativarFiltro() {
+      const inputFiltro = document.getElementById("filtroProduto");
+      inputFiltro.addEventListener("input", () => {
+        const filtro = inputFiltro.value.toLowerCase();
+        const blocos = document.querySelectorAll(".produto");
+
+        blocos.forEach(bloco => {
+          const nomeProduto = bloco.querySelector(".nomeProduto").textContent.toLowerCase();
+          bloco.style.display = nomeProduto.includes(filtro) ? "block" : "none";
+        });
+      });
+    }
+
+    carregarProdutos();
+
+    // Função para copiar chave Pix
+    window.copyPix = function() {
+      const pixKey = document.getElementById("pix-key").innerText.replace("Chave Pix:", "").trim();
+      navigator.clipboard.writeText(pixKey).then(() => {
+        alert("Chave Pix copiada!");
+      });
+    }
+  </script>
+</body>
+</html>
